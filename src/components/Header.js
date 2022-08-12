@@ -5,12 +5,17 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/outline";
 import { selectedItems } from "../redux/basketSlice";
-import { useSelector } from "react-redux";
+import { selectUser } from "../redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setLogout } from "../redux/userSlice";
 
 function Header() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const basket = useSelector(selectedItems);
+  const user = useSelector(selectUser);
+
 
   return (
     <header className="fixed top-0 w-full z-50">
@@ -31,15 +36,23 @@ function Header() {
           <SearchIcon className="h-12 p-4" />
         </div>
         <div className="text-white flex items-center space-x-6 mx-6 whitespace-nowrap">
-          <div className="link">
-            <p>'Sign In'</p>
+          <div
+            onClick={
+              user ? () => dispatch(setLogout()) : () => navigate("/signin")
+            }
+            className="link"
+          >
+            <p>{user ? `Hello, ${user.email}` : "Sign In"}</p>
             <p className="font-extrabold md:text-sm">Account & Lists</p>
           </div>
           <div className="link">
             <p>Returns</p>
             <p className="font-extrabold md:text-sm">& Orders</p>
           </div>
-          <div onClick={() => navigate('/checkout')} className="link relative flex items-center">
+          <div
+            onClick={() => navigate("/checkout")}
+            className="link relative flex items-center"
+          >
             <p className="absolute flex items-center justify-center top-[-4px] right-[-5px] md:right-10 mb-2 h-5 w-5 bg-yellow-500 text-center rounded-full text-black font-bold">
               {basket.length}
             </p>

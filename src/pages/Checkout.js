@@ -4,10 +4,14 @@ import { useSelector } from "react-redux";
 import { selectedItems, selectTotal } from "../redux/basketSlice";
 import CheckoutProduct from "../components/CheckoutProduct";
 import Currency from "react-currency-formatter";
+import { selectUser } from "../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 function Checkout() {
+  const navigate = useNavigate()
   const items = useSelector(selectedItems);
-  const total = useSelector(selectTotal)
+  const total = useSelector(selectTotal);
+  const user = useSelector(selectUser);
 
   const sortedItems = [...items].sort((a, b) => a.id - b.id);
 
@@ -46,10 +50,10 @@ function Checkout() {
               <h2 className="whitespace-nowrap">
                 {`Subtotal (${items.length} items): `}
                 <span className="font-bold">
-                  <Currency quantity={total} currency='EUR' />
+                  <Currency quantity={total} currency="EUR" />
                 </span>
               </h2>
-              <button className="button mt-2">Sign In to Checkout</button>
+              <button onClick={user ? '' : () => navigate('/signin')} className="button mt-2">{user ? 'Proceed to Checkout' : 'Sign In to Checkout'}</button>
             </div>
           )}
         </div>
