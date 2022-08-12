@@ -53,7 +53,7 @@ function Checkout() {
                   <Currency quantity={total} currency="EUR" />
                 </span>
               </h2>
-              <button onClick={user ? '' : () => navigate('/signin')} className="button mt-2">{user ? 'Proceed to Checkout' : 'Sign In to Checkout'}</button>
+              <button onClick={user ? '' : () => navigate('/signin')} role='link' className={user ? "button mt-2" : 'button mt-2 from-gray-300 to-gray-500 border-gray-300 focus:ring-gray-500 active:from-gray-500 active:to-gray-400'}>{user ? 'Proceed to Checkout' : 'Sign In to Checkout'}</button>
             </div>
           )}
         </div>
